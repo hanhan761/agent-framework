@@ -19,10 +19,12 @@ from copilot.session import PermissionHandler, PermissionRequestResult
 from copilot.session_events import PermissionRequest
 
 
-async def prompt_permission(request: PermissionRequest, context: dict[str, str]) -> PermissionRequestResult:
+def prompt_permission(request: PermissionRequest, context: dict[str, str]) -> PermissionRequestResult:
     """Permission handler that prompts the user for approval."""
     print(f"\n[Permission Request: {request.kind}]")
-    response = (await asyncio.to_thread(input, "Approve? (y/n): ")).strip().lower()
+    if request.path is not None:
+        print(f"  Path: {request.path}")
+    response = input("Approve? (y/n): ").strip().lower()
     if response in ("y", "yes"):
         return PermissionHandler.approve_all(request, context)
     return PermissionDecisionDeniedInteractivelyByUser()

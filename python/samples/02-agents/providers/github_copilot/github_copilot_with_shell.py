@@ -19,7 +19,7 @@ from copilot.session_events import PermissionRequest
 
 
 def approve_and_log(request: PermissionRequest, context: dict[str, str]) -> PermissionRequestResult:
-    """Permission handler that auto-approves and logs shell commands."""
+    """Permission handler that auto-approves and logs all permission requests."""
     print(f"\n  [Permission: {request.kind}]", flush=True)
     if request.full_command_text is not None:
         print(f"  Command: {request.full_command_text}", flush=True)
